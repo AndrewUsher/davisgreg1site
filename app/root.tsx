@@ -12,7 +12,7 @@ import {
 import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { ExternalScripts } from "remix-utils";
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useState } from "react";
 import Lottie from "react-lottie-player";
 import { LinksFunction } from "remix";
 import globalStyleSheet from "./styles/global.css";
@@ -143,8 +143,10 @@ function Document({
   title?: string;
 }) {
   const location = useLocation();
+  const [nodeEnv, setNodeEnv] = useState("");
 
   useEffect(() => {
+    setNodeEnv(process.env.NODE_ENV);
     gtag.pageview(location.pathname, "GTM-KC2Z5C7");
   }, [location]);
 
@@ -162,7 +164,7 @@ function Document({
         <ScrollRestoration />
         <ExternalScripts />
         <Scripts />
-        {process.env.NODE_ENV === "development" ? null : (
+        {nodeEnv === "development" ? null : (
           <>
             <script
               id="gtag-init"
