@@ -143,14 +143,11 @@ function Document({
   title?: string;
 }) {
   const location = useLocation();
-  const loaderData = useLoaderData();
-  const { gaTrackingId, nodeEnv } = loaderData;
 
   useEffect(() => {
-    if (gaTrackingId?.length) {
-      gtag.pageview(location.pathname, gaTrackingId);
-    }
-  }, [location, gaTrackingId]);
+    gtag.pageview(location.pathname, "GTM-KC2Z5C7");
+  }, [location]);
+
   return (
     <html lang="en">
       <head>
@@ -165,7 +162,8 @@ function Document({
         <ScrollRestoration />
         <ExternalScripts />
         <Scripts />
-        {nodeEnv === "development" || !gaTrackingId ? null : (
+        {process.env.NODE_ENV === "development" ||
+        !process.env.GA_TRACKING_ID ? null : (
           <>
             <script
               id="gtag-init"
@@ -174,7 +172,7 @@ function Document({
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
                 gtag('js', new Date());
-                gtag('config', '${gaTrackingId}', {
+                gtag('config', 'GTM-KC2Z5C7', {
                   page_path: window.location.pathname,
                 });
               `,
@@ -182,7 +180,7 @@ function Document({
             />
             <script
               defer
-              src={`https://www.googletagmanager.com/gtag/js?id=${gaTrackingId}`}
+              src={`https://www.googletagmanager.com/gtag/js?id=GTM-KC2Z5C7`}
             />
           </>
         )}
