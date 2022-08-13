@@ -162,8 +162,7 @@ function Document({
         <ScrollRestoration />
         <ExternalScripts />
         <Scripts />
-        {process.env.NODE_ENV === "development" ||
-        !process.env.GA_TRACKING_ID ? null : (
+        {process.env.NODE_ENV === "development" ? null : (
           <>
             <script
               id="gtag-init"
